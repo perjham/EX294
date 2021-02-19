@@ -1,0 +1,24 @@
+---
+- name: Create and Use Templates to Create Customized Configuration Files
+  hosts: all
+  become: True
+  vars:
+    selinux_fcontexts:
+      - { target: '/etc/server_list.txt', setype: 'net_conf_t', ftype: 'f' }
+    selinux_restore_dirs:
+      - /etc/server_list.txt
+  tasks:
+    - when:
+        - "'database' in hostvars[inventory_hostname]['group_names']"
+      block:
+        - name: Copy jinja tempalte
+          template:
+            src: ./templates/server_list.j2 
+            dest: /etc/server_list.txt
+            owner: ansible
+            mode: 0600
+        - name: Configure Selinux Contex
+          include_role:
+            name: rhel-system-roles.selinux
+
+

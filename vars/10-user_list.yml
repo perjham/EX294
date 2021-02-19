@@ -1,0 +1,10 @@
+---
+users:
+  - username: alice
+    uid: 1201
+  - username: vincent
+    uid: 1202
+  - username: sandy
+    uid: 2201
+  - username: patrick
+    uid: 2202

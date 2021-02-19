@@ -1,0 +1,17 @@
+[proxy]
+node1.example.com
+
+[webserver]
+node2.example.com
+node3.example.com
+
+[database]
+node4.example.com
+
+[frontend:children]
+proxy
+
+[backend:children]
+webserver
+database
+

@@ -1,0 +1,26 @@
+---
+- name: Download Roles From Ansible Galaxy and Use Them
+  hosts: proxy
+  become: True
+  vars:
+    haproxy_frontend_name: 'hafrontend'
+    haproxy_frontend_bind_address: '*'
+    haproxy_frontend_port: 80
+    haproxy_frontend_mode: 'http'
+    haproxy_backend_name: 'habackend'
+    haproxy_backend_mode: 'http'
+    haproxy_backend_balance_method: 'roundrobin'
+    haproxy_backend_servers:
+      - name: node3.example.com
+        address: 192.168.122.103
+      - name: node2.example.com
+        address: 192.168.122.102
+  roles:
+    - geerlingguy.haproxy
+  post_tasks:
+    - name: Configure Firewall
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: yes

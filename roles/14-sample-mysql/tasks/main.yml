@@ -1,0 +1,53 @@
+---
+# tasks file for 14-sample-mysql
+- name: Create and Work with Roles I
+  when:
+    - "'database' in hostvars[inventory_hostname]['group_names']"
+  block:
+    - name: Partition /dev/vdc
+      parted:
+        device: /dev/vdc
+        number: 1
+        state: present
+        part_end: 700MiB
+    - name: Create VG vg_database
+      lvg:
+        vg: vg_database
+        pvs: /dev/vdc1
+    - name: Create LV lv_mysql
+      lvol:
+        vg: vg_database
+        lv: lv_mysql
+        size: 512m
+    - name: Create a xfs FS
+      filesystem:
+        fstype: xfs
+        dev: /dev/vg_database/lv_mysql
+    - name: Mount FS
+      mount:
+        path: /mysql_backups
+        src: /dev/vg_database/lv_mysql
+        fstype: xfs
+        state: mounted
+    - name: Disable module mysql from AppStream
+      shell:
+        cmd: dnf module disable -y mysql:8.0
+        warn: false
+    - name: Install Mysql Server
+      dnf:
+        name: 
+          - mysql-community-server
+          - python3-PyMySQL
+        state: present
+    - firewalld:
+        service: mysql
+        permanent: yes
+        state: enabled
+        immediate: yes
+    - template:
+        src: my.cnf.j2
+        dest: /etc/my.cnf
+    - systemd:
+        name: mysqld
+        state: restarted
+        enabled: yes

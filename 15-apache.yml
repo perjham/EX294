@@ -1,0 +1,6 @@
+---
+- name: Create and Work with Roles II
+  hosts: all
+  become: True
+  roles:
+    - 15-sample-apache 

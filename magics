@@ -1,0 +1,57 @@
+node1.example.com | SUCCESS => {
+    "hostvars[inventory_hostname]": {
+        "ansible_check_mode": false,
+        "ansible_diff_mode": false,
+        "ansible_facts": {},
+        "ansible_forks": 10,
+        "ansible_inventory_sources": [
+            "/home/ansible/plays/inventory"
+        ],
+        "ansible_playbook_python": "/usr/libexec/platform-python",
+        "ansible_verbosity": 0,
+        "ansible_version": {
+            "full": "2.9.17",
+            "major": 2,
+            "minor": 9,
+            "revision": 17,
+            "string": "2.9.17"
+        },
+        "group_names": [
+            "frontend",
+            "proxy"
+        ],
+        "groups": {
+            "all": [
+                "node1.example.com",
+                "node2.example.com",
+                "node3.example.com",
+                "node4.example.com"
+            ],
+            "backend": [
+                "node2.example.com",
+                "node3.example.com",
+                "node4.example.com"
+            ],
+            "database": [
+                "node4.example.com"
+            ],
+            "frontend": [
+                "node1.example.com"
+            ],
+            "proxy": [
+                "node1.example.com"
+            ],
+            "ungrouped": [],
+            "webserver": [
+                "node2.example.com",
+                "node3.example.com"
+            ]
+        },
+        "inventory_dir": "/home/ansible/plays",
+        "inventory_file": "/home/ansible/plays/inventory",
+        "inventory_hostname": "node1.example.com",
+        "inventory_hostname_short": "node1",
+        "omit": "__omit_place_holder__0a0ba5d4e1ae4d74d19093c246720586a20ddd7b",
+        "playbook_dir": "/home/ansible/plays"
+    }
+}

@@ -1,0 +1,24 @@
+---
+# tasks file for 15-sample-apache
+- when:
+    - "'webserver' in hostvars[inventory_hostname]['group_names']"
+  block:
+    - name: Install Apache server
+      dnf:
+        name:
+          - httpd
+          - mod_ssl
+          - php
+        state: present
+    - name: Configure Firewall
+      with_items: "{{ services }}"
+      firewalld:
+        service: "{{ item.fwservice }}"
+        permanent: yes
+        immediate: yes
+        state: enabled
+    - name: Copy index.html
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+      notify: restart_httpd

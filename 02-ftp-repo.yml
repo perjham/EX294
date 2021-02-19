@@ -1,0 +1,49 @@
+---
+- name: Configure Repository I
+  hosts: localhost
+  become: True
+  tasks:
+    - name: 'Mount DVD iso into /ftp_repo'
+      mount:
+        path: /ftp_repo
+        src: /dev/sr0
+        fstype: iso9660
+        opts: ro
+        state: mounted
+    - name: Enabled firewalld
+      systemd:
+        name: firewalld
+        state: restarted
+        enabled: true
+    - name: Install vsftpd
+      dnf:
+        name: vsftpd
+        state: latest
+    - name: Allow Anonymous acces to FTP
+      lineinfile:
+        path: /etc/vsftpd/vsftpd.conf
+        regexp: '^anonymous_enable'
+        insertafter: '^#anonymous_enable'
+        line: anonymous_enable=YES
+    - name: 'Configure root for anonymour to /ftp_repo'
+      lineinfile:
+        path: /etc/vsftpd/vsftpd.conf
+        regexp: '^anon_root'
+        insertafter: '^#anon_root'
+        line: anon_root=/ftp_repo
+    - name: Enabled vsftpd
+      systemd:
+        name: vsftpd
+        state: restarted
+        enabled: true
+    - name: Configure firewalld
+      firewalld:
+        service: ftp
+        permanent: yes
+        state: enabled
+        immediate: yes
+    - name: Configure boolean for ftp
+      seboolean:
+        name: ftpd_full_access 
+        state: yes
+        persistent: yes

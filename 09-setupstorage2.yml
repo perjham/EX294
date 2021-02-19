@@ -1,0 +1,26 @@
+---
+- name: LVM II
+  become: True
+  hosts: all
+  tasks:
+    - name: vgrod Volume Group no exists
+      when:
+        - "'vgdata' not in  ansible_facts['lvm']['vgs']"
+      debug:
+        msg: vgdata no exist
+    - name: vgprod Volume Group exists
+      when:
+        - "'vgdata' in  ansible_facts['lvm']['vgs']"
+      debug:
+        msg: vgdata exist
+    - when:
+        - "'vgdata' in ansible_facts['lvm']['vgs']"
+      debug:
+        msg: "{{ ansible_facts['lvm']['vgs']['vgdata']['free_g'] }}"
+    - name: Verifying size of vgdata
+      when:
+        - "'vgdata' in ansible_facts['lvm']['vgs']"
+        - ansible_facts['lvm']['vgs']['vgdata']['free_g'] < '1'
+      debug:
+        msg: insufficient disk space available
+

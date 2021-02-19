@@ -1,0 +1,27 @@
+---
+- name: Configure SSH Server
+  hosts: all
+  become: True
+  tasks:
+    - name: Modifying Banner
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^Banner'
+        line: Banner /etc/motd
+    - name: Modifying X11Forwarding
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^X11Forwarding'
+        line: X11Forwarding yes
+    - name: Modifying MaxAuthTries
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^MaxAuthTries'
+        line: MaxAuthTries 3
+    - name: Restarting SSH
+      systemd:
+        name: sshd
+        state: restarted
+        enabled: yes
+
+

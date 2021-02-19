@@ -1,0 +1,10 @@
+users:
+  - name: linda
+    password: password
+    department: profs
+  - name: lisa
+    password: secret
+    department: profs
+  - name: anna
+    password: geheim
+    department: student

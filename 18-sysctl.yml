@@ -1,0 +1,17 @@
+---
+- name: Use Conditionals to Control Play Execution
+  hosts: all
+  become: True
+  tasks:
+    - name: set vm.swappiness
+      when:
+        - ansible_facts['memtotal_mb'] > 1500
+      sysctl:
+        name: vm.swappiness
+        value: '10'
+        state: present
+    - name: Error
+      when:
+        - ansible_facts['memtotal_mb'] < 1500 
+      debug:
+        msg: Server memory less than 1500 MB

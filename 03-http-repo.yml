@@ -1,0 +1,46 @@
+---
+- name: Configure http repo
+  become: True
+  hosts: localhost
+  vars:
+    services:
+      - http
+      - https
+  tasks:
+    - name: Install apache server
+      dnf:
+        name:
+          - httpd
+          - mod_ssl
+        state: latest
+    - name: Configure firewall
+      with_items: "{{ services }}"
+      firewalld:
+        service: "{{ item }}"
+        permanent: yes
+        state: enabled
+        immediate: yes
+    - name: Configure DocumenRoot
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^DocumentRoot'
+        insertafter: '^#DocumentRoot'
+        line: DocumentRoot "/http_repo" 
+    - name: Configure DocumenRoot
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '<Directory "/var/www/html">'
+        insertafter: '^#<Directory "/var/www/html">'
+        line: '<Directory "/http_repo">'
+    - name: Enabled httpd
+      systemd:
+        name: httpd
+        state: restarted
+        enabled: yes
+    - name: 'Allow apache  access to /http_repo'
+      sefcontext:
+       target: '/http_repo(/.*)?'
+       setype: httpd_sys_content_t
+       state: present
+    - name: 'Apply new SELinux file context to /http_repo'
+      command: restorecon -irv /http_repo

@@ -1,0 +1,5 @@
+---
+# vars file for 15-sample-apache
+services:
+  - fwservice: http
+  - fwservice: https  
