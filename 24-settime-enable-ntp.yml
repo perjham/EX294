@@ -1,0 +1,15 @@
+---
+- name: Enabled NTP on controller
+  hosts: localhost
+  become: True
+  tasks:
+    - name: Configure Firewalld
+      firewalld:
+        service: ntp
+        permanent: yes
+        state: enabled
+        immediate: yes
+    - systemd:
+        name: chronyd
+        state: restarted
+        enabled: yes

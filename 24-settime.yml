@@ -1,0 +1,13 @@
+---
+- import_playbook: ./24-settime-enable-ntp.yml
+- name: 'TASK 24: Roles'
+  hosts: all
+  become: True
+  vars:
+    timesync_ntp_servers:
+      - hostname: controller.example.com
+        iburst: yes
+  roles:
+    - rhel-system-roles.timesync
+
+
