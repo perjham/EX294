@@ -1,0 +1,6 @@
+---
+- name: 'TASK 22:  Facts'
+  hosts: all
+  become: True
+  tasks:
+    - 

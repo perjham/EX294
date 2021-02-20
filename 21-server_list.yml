@@ -1,0 +1,14 @@
+---
+- name: 'TASK 21: Create and Use Templates to Create Customized Configuration Files'
+  hosts: all
+  become: True
+  tasks:
+    - name: List
+      when:
+        - "'database' in hostvars[inventory_hostname]['group_names']"
+      template:
+        src: ./templates/server_list.j2
+        dest: /etc/server_list.txt
+        owner: ansible
+        mode: 0600
+        setype: net_conf_t
