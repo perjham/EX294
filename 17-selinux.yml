@@ -1,16 +1,12 @@
 ---
-- name: Secuirty
+- name: 'TASK 17: Security'
   hosts: all
   become: True
   vars:
     selinux_booleans:
       - { name: 'httpd_can_network_connect', state: 'on', persistent: 'yes' }
-  tasks:    
-   - when: "'webserver' in hostvars[inventory_hostname]['group_names']"
-     block:
-       - include_role: 
-           name: rhel-system-roles.selinux
-          
-      
-  
-
+  tasks:
+    - when:
+        - "'webserver' in hostvars[inventory_hostname]['group_names']"
+      include_role:
+        name: rhel-system-roles.selinux 

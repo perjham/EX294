@@ -1,49 +1,37 @@
 ---
-- name: LVM I
+- name: 'TASK 8: LVM I'
   hosts: all
   become: True
   tasks:
-    - name: Server with Second HD
+    - name: On server that has second drive vdb
       when:
-        - "'vdb' in ansible_facts['devices']"
+        - " 'vdb' in ansible_facts['devices']"
       block:
-        - debug:
-            msg: "{{ ansible_facts['fqdn'] }} has second drive"
-        - name: Create a new primary partition
+        - name: create partition in /dev/vdb
           parted:
             device: /dev/vdb
             number: 1
             state: present
-        - shell:
-            cmd: lsblk
-          register: lsblk
-        - debug:
-            var: lsblk['stdout_lines']
-        - name: Create a volume group on top of /dev/vdb1 with physical extent size = 8MB
+        - name: Create VG vgdata
           lvg:
             vg: vgdata
             pvs: /dev/vdb1
             pesize: 8M
-        - shell: 
-            cmd: vgdisplay vgdata
-          register: vgdisplay
-        - debug:
-            var: vgdisplay['stdout_lines']
-        - name: Create a logical volume of 1G
+        - name: Create LV lvdata
           lvol:
             vg: vgdata
             lv: lvdata
-            size: 1G
-        - name: Formatting partition
+            size: 100%FREE
+        - name: Formatting lvdata with xfs
           filesystem:
             fstype: xfs
             dev: /dev/vgdata/lvdata
-        - name: Mounting in /test/data
+        - name: Mounting 
           mount:
             path: /data
             src: /dev/vgdata/lvdata
             fstype: xfs
             state: mounted
-
-
-
+            
+        
+        

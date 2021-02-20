@@ -1,23 +1,23 @@
 ---
-- name: Users and groups II
+- name: 'TASK 11:  Users and groups II'
   hosts: all
   become: True
   vars_files:
     - ./vars/11-user_list2.yml
   tasks:
-    - name: On servers that are in the webservers group create group
-      with_items: "{{ users }}"
+    - name: On webserver
       when:
         - "'webserver' in hostvars[inventory_hostname]['group_names']"
-        - item.department == 'profs'
-      group:
-        name: "{{ item.department }}"
-    - name: On servers that are in the webservers group create user
-      with_items: "{{ users }}"
-      when:
-        - "'webserver' in hostvars[inventory_hostname]['group_names']"
-        - item.department == 'profs'
-      user:
-        name: "{{ item.name }}"
-        groups: "{{ item.department }}"
-        password: "{{ item.password | password_hash('sha256') }}"
+        - item.department == 'profs' 
+      block:
+        - with_items: "{{ users }}"
+          group:
+            name: "{{ item.department }}"
+            state: present
+        - with_items: "{{ users }}"
+          user:
+            name: "{{ item.name }}"
+            groups: "{{ item.department }}"
+            password: "{{ item.password | password_hash('sha256') }}"
+
+

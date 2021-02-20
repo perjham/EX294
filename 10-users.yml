@@ -1,29 +1,29 @@
 ---
-- name: Users and Groups I
+- name: 'TASK 10: Users and Groups I'
   hosts: all
   become: True
   vars_files:
+    - ./vars/10-user_list.yml
     - ./vars/10-secret.yml
-    - ./vars/10-user_list.yml 
- 
   tasks:
-    - name: Create Users whose user ID starts with 1 on servers in the webserver host group
-      with_items: "{{ users }} "
+    - name: Users ID start with 1
+      with_items: "{{ users }}"
       when:
-        - "'webserver' in hostvars[inventory_hostname]['group_names']"
-        - item.uid | string | first == '1' 
+        - ("'webserver' in hostvars[inventory_hostname]['group_names']") and
+          (item.uid | string | first == '1')
       user:
         name: "{{ item.username }}"
-        password: "{{ user_password | password_hash('sha512') }}"
-        shell: /bin/bash
         groups: wheel
-    - name: Create Users whose user ID starts with 2 on servers in the database host group
-      with_items: "{{ users }} "
+        shell: /bin/bash
+        password: "{{ user_password | password_hash('sha512') }}"
+
+    - name: Users ID start with 2
+      with_items: "{{ users }}"
       when:
         - "'database' in hostvars[inventory_hostname]['group_names']"
         - item.uid | string | first == '2'
       user:
         name: "{{ item.username }}"
-        password: "{{ user_password | password_hash('sha512') }}"
-        shell: /bin/bash
         groups: wheel
+        shell: /bin/bash
+        password: "{{ user_password | password_hash('sha512') }}"

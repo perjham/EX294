@@ -1,46 +1,48 @@
 ---
-- name: Configure http repo
-  become: True
+- name: " TASK3 :Configure Repository II"
   hosts: localhost
+  become: True
+  roles:
+    - rhel-system-roles.selinux
   vars:
-    services:
+    firewalld:
       - http
       - https
-  tasks:
-    - name: Install apache server
+    selinux_fcontexts:
+      - { target: '/http_repo(/.*)?', setype: 'httpd_sys_content_t', state: 'present' }  
+    selinux_restore_dirs:
+      - /http_repo
+  pre_tasks:
+    - name: Install http
       dnf:
         name:
           - httpd
           - mod_ssl
-        state: latest
-    - name: Configure firewall
-      with_items: "{{ services }}"
+        state: present
+    - name: Enabled Firewall services
+      with_items: "{{ firewalld }}"
       firewalld:
         service: "{{ item }}"
         permanent: yes
         state: enabled
         immediate: yes
-    - name: Configure DocumenRoot
+    - name: Modify Document Root of Apache
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
-        regexp: '^DocumentRoot'
-        insertafter: '^#DocumentRoot'
-        line: DocumentRoot "/http_repo" 
-    - name: Configure DocumenRoot
+        regexp: '^DocumentRoot '
+        insertafter: '^#DocumentRoot '
+        line: DocumentRoot "/http_repo"
+    - name: Modify Document Root of Apache
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
-        regexp: '<Directory "/var/www/html">'
+        regexp: '^<Directory "/var/www/html">'
         insertafter: '^#<Directory "/var/www/html">'
-        line: '<Directory "/http_repo">'
-    - name: Enabled httpd
+        line: <Directory "/http_repo">
+    - name: Restarting and enable Apache
       systemd:
         name: httpd
         state: restarted
         enabled: yes
-    - name: 'Allow apache  access to /http_repo'
-      sefcontext:
-       target: '/http_repo(/.*)?'
-       setype: httpd_sys_content_t
-       state: present
-    - name: 'Apply new SELinux file context to /http_repo'
-      command: restorecon -irv /http_repo
+
+
+

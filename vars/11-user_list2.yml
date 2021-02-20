@@ -1,3 +1,4 @@
+---
 users:
   - name: linda
     password: password
@@ -7,4 +8,4 @@ users:
     department: profs
   - name: anna
     password: geheim
-    department: student
+    department: students

@@ -1,13 +1,13 @@
 ---
-- name: Scheduled Tasks
+- name: 'TASK 12: Scheduled Tasks'
   hosts: all
   become: True
   tasks:
-    - name: Root crontab
+    - name: Create root cron
       when:
         - "'proxy' in hostvars[inventory_hostname]['group_names']"
       cron:
-        name: "task 12"
-        minute: '0'
+        name: "date command"
         user: root
-        job: "date >> /var/log/time.log"
+        minute: "0"
+        job: "date >> /var/log/time.log" 

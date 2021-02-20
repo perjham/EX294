@@ -1,8 +1,0 @@
----
-- name: Create and Work with Roles I
-  hosts: all
-  become: True
-  vars_files:
-    - ./vars/10-secret.yml
-  roles:
-    - 14-sample-mysql

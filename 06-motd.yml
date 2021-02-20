@@ -1,26 +1,24 @@
 ---
-- name: File Content
+- name: 'TASK 6: File Content'
   hosts: all
-  become: true
+  become: True
   tasks:
-    - name: Set MOTD on group proxy
+    - name: On group Proxy
       when:
-        - "'proxy' in  hostvars[inventory_hostname]['group_names']"
+        - "'proxy' in hostvars[inventory_hostname]['group_names']"
       copy:
-        dest: /etc/motd
         content: Welcome to HAProxy server
-    - name: Set MOTD on group webserver
-      when:
-        - "'webserver' in  hostvars[inventory_hostname]['group_names']"
-      copy:
         dest: /etc/motd
+    - name: On group Webserver
+      when:
+        - "'webserver' in hostvars[inventory_hostname]['group_names']"
+      copy:
         content: Welcome to Apache server
-    - name: Set MOTD on group database
-      when:
-        - "'database' in  hostvars[inventory_hostname]['group_names']"
-      copy:
         dest: /etc/motd
+    - name: On group Database
+      when:
+        - "'database' in hostvars[inventory_hostname]['group_names']"
+      copy:
         content: Welcome to MySQL server
-
-
-
+        dest: /etc/motd
+        

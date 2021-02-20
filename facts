@@ -4,9 +4,8 @@ node4.example.com | SUCCESS => {
             "192.168.122.104"
         ],
         "ansible_all_ipv6_addresses": [
-            "fe80::4543:836f:cd7f:363e",
             "fe80::88f:ea6b:4745:8255",
-            "fe80::1cee:f075:2037:fc1d"
+            "fe80::4543:836f:cd7f:363e"
         ],
         "ansible_apparmor": {
             "status": "disabled"
@@ -24,23 +23,23 @@ node4.example.com | SUCCESS => {
             "root": "/dev/mapper/rhel-root"
         },
         "ansible_date_time": {
-            "date": "2021-02-14",
-            "day": "14",
-            "epoch": "1613311139",
-            "hour": "08",
-            "iso8601": "2021-02-14T13:58:59Z",
-            "iso8601_basic": "20210214T085859471181",
-            "iso8601_basic_short": "20210214T085859",
-            "iso8601_micro": "2021-02-14T13:58:59.471181Z",
-            "minute": "58",
+            "date": "2021-02-19",
+            "day": "19",
+            "epoch": "1613788982",
+            "hour": "21",
+            "iso8601": "2021-02-20T02:43:02Z",
+            "iso8601_basic": "20210219T214302328643",
+            "iso8601_basic_short": "20210219T214302",
+            "iso8601_micro": "2021-02-20T02:43:02.328643Z",
+            "minute": "43",
             "month": "02",
-            "second": "59",
-            "time": "08:58:59",
+            "second": "02",
+            "time": "21:43:02",
             "tz": "EST",
             "tz_offset": "-0500",
-            "weekday": "domingo",
-            "weekday_number": "0",
-            "weeknumber": "06",
+            "weekday": "viernes",
+            "weekday_number": "5",
+            "weeknumber": "07",
             "year": "2021"
         },
         "ansible_default_ipv4": {
@@ -49,7 +48,7 @@ node4.example.com | SUCCESS => {
             "broadcast": "192.168.122.255",
             "gateway": "192.168.122.1",
             "interface": "enp1s0",
-            "macaddress": "52:54:00:75:51:f0",
+            "macaddress": "52:54:00:41:3c:64",
             "mtu": 1500,
             "netmask": "255.255.255.0",
             "network": "192.168.122.0",
@@ -66,15 +65,8 @@ node4.example.com | SUCCESS => {
                     "dm-name-rhel-swap",
                     "dm-uuid-LVM-6EZ6NYk0Csiu6jp1BTNQXqM4xU3C24yK2sLfceMkH5yzpWRU1U0brZ7Mh8jdBGBL"
                 ],
-                "dm-2": [
-                    "dm-name-vgdata-lvdata",
-                    "dm-uuid-LVM-HEJutxvaATzXPaj4VsXQ1Up1KvB25QuWZHwfyO0jYe9pLyn4PmHnlWRppeL4bs36"
-                ],
                 "vda2": [
                     "lvm-pv-uuid-MblVea-rBs7-2Jyo-FoFz-Oel4-29cE-0E3IJM"
-                ],
-                "vdb1": [
-                    "lvm-pv-uuid-4zkr3m-I2o2-cVM5-nQde-5L1R-MDFA-iJDQzH"
                 ]
             },
             "labels": {},
@@ -82,9 +74,6 @@ node4.example.com | SUCCESS => {
                 "vda2": [
                     "dm-0",
                     "dm-1"
-                ],
-                "vdb1": [
-                    "dm-2"
                 ]
             },
             "uuids": {
@@ -93,9 +82,6 @@ node4.example.com | SUCCESS => {
                 ],
                 "dm-1": [
                     "ba780c1a-0bad-4c74-9522-d6eeafb6e837"
-                ],
-                "dm-2": [
-                    "eecaaf23-0877-4b0b-b336-bc4e0bdb5c75"
                 ],
                 "vda1": [
                     "85811473-244e-4955-859c-eb6ee73992f5"
@@ -155,34 +141,6 @@ node4.example.com | SUCCESS => {
                 "sectors": "1892352",
                 "sectorsize": "512",
                 "size": "924.00 MB",
-                "support_discard": "512",
-                "vendor": null,
-                "virtual": 1
-            },
-            "dm-2": {
-                "holders": [],
-                "host": "",
-                "links": {
-                    "ids": [
-                        "dm-name-vgdata-lvdata",
-                        "dm-uuid-LVM-HEJutxvaATzXPaj4VsXQ1Up1KvB25QuWZHwfyO0jYe9pLyn4PmHnlWRppeL4bs36"
-                    ],
-                    "labels": [],
-                    "masters": [],
-                    "uuids": [
-                        "eecaaf23-0877-4b0b-b336-bc4e0bdb5c75"
-                    ]
-                },
-                "model": null,
-                "partitions": {},
-                "removable": "0",
-                "rotational": "1",
-                "sas_address": null,
-                "sas_device_handle": null,
-                "scheduler_mode": "",
-                "sectors": "2097152",
-                "sectorsize": "512",
-                "size": "1.00 GB",
                 "support_discard": "512",
                 "vendor": null,
                 "virtual": 1
@@ -259,36 +217,15 @@ node4.example.com | SUCCESS => {
                     "uuids": []
                 },
                 "model": null,
-                "partitions": {
-                    "vdb1": {
-                        "holders": [
-                            "vgdata-lvdata"
-                        ],
-                        "links": {
-                            "ids": [
-                                "lvm-pv-uuid-4zkr3m-I2o2-cVM5-nQde-5L1R-MDFA-iJDQzH"
-                            ],
-                            "labels": [],
-                            "masters": [
-                                "dm-2"
-                            ],
-                            "uuids": []
-                        },
-                        "sectors": "2512896",
-                        "sectorsize": 512,
-                        "size": "1.20 GB",
-                        "start": "2048",
-                        "uuid": null
-                    }
-                },
+                "partitions": {},
                 "removable": "0",
                 "rotational": "1",
                 "sas_address": null,
                 "sas_device_handle": null,
                 "scheduler_mode": "mq-deadline",
-                "sectors": "2516584",
+                "sectors": "1048576",
                 "sectorsize": "512",
-                "size": "1.20 GB",
+                "size": "512.00 MB",
                 "support_discard": "512",
                 "vendor": "0x1af4",
                 "virtual": 1
@@ -406,22 +343,17 @@ node4.example.com | SUCCESS => {
             },
             "ipv6": [
                 {
-                    "address": "fe80::4543:836f:cd7f:363e",
-                    "prefix": "64",
-                    "scope": "link"
-                },
-                {
                     "address": "fe80::88f:ea6b:4745:8255",
                     "prefix": "64",
                     "scope": "link"
                 },
                 {
-                    "address": "fe80::1cee:f075:2037:fc1d",
+                    "address": "fe80::4543:836f:cd7f:363e",
                     "prefix": "64",
                     "scope": "link"
                 }
             ],
-            "macaddress": "52:54:00:75:51:f0",
+            "macaddress": "52:54:00:41:3c:64",
             "module": "virtio_net",
             "mtu": 1500,
             "pciid": "virtio0",
@@ -437,13 +369,14 @@ node4.example.com | SUCCESS => {
         "ansible_env": {
             "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/0/bus",
             "HOME": "/root",
-            "LANG": "es_ES.UTF-8",
+            "LANG": "C",
             "LC_ADDRESS": "es_PE.UTF-8",
+            "LC_ALL": "C",
             "LC_IDENTIFICATION": "es_PE.UTF-8",
             "LC_MEASUREMENT": "es_PE.UTF-8",
             "LC_MONETARY": "es_PE.UTF-8",
             "LC_NAME": "es_PE.UTF-8",
-            "LC_NUMERIC": "es_PE.UTF-8",
+            "LC_NUMERIC": "C",
             "LC_PAPER": "es_PE.UTF-8",
             "LC_TELEPHONE": "es_PE.UTF-8",
             "LC_TIME": "es_PE.UTF-8",
@@ -457,13 +390,13 @@ node4.example.com | SUCCESS => {
             "SELINUX_USE_CURRENT_RANGE": "",
             "SHELL": "/bin/bash",
             "SHLVL": "2",
-            "SSH_CLIENT": "192.168.122.100 44668 22",
-            "SSH_CONNECTION": "192.168.122.100 44668 192.168.122.104 22",
+            "SSH_CLIENT": "192.168.122.100 57246 22",
+            "SSH_CONNECTION": "192.168.122.100 57246 192.168.122.104 22",
             "SSH_TTY": "/dev/pts/0",
             "TERM": "xterm-256color",
             "USER": "root",
             "XDG_RUNTIME_DIR": "/run/user/0",
-            "XDG_SESSION_ID": "18",
+            "XDG_SESSION_ID": "1",
             "_": "/usr/libexec/platform-python"
         },
         "ansible_fibre_channel_wwn": [],
@@ -568,10 +501,6 @@ node4.example.com | SUCCESS => {
         "ansible_lsb": {},
         "ansible_lvm": {
             "lvs": {
-                "lvdata": {
-                    "size_g": "1.00",
-                    "vg": "vgdata"
-                },
                 "root": {
                     "size_g": "7.09",
                     "vg": "rhel"
@@ -586,11 +515,6 @@ node4.example.com | SUCCESS => {
                     "free_g": "0",
                     "size_g": "8.00",
                     "vg": "rhel"
-                },
-                "/dev/vdb1": {
-                    "free_g": "0.20",
-                    "size_g": "1.20",
-                    "vg": "vgdata"
                 }
             },
             "vgs": {
@@ -599,27 +523,21 @@ node4.example.com | SUCCESS => {
                     "num_lvs": "2",
                     "num_pvs": "1",
                     "size_g": "8.00"
-                },
-                "vgdata": {
-                    "free_g": "0.20",
-                    "num_lvs": "1",
-                    "num_pvs": "1",
-                    "size_g": "1.20"
                 }
             }
         },
         "ansible_machine": "x86_64",
         "ansible_machine_id": "e92c96b9a8c44ac080b2d6ad8aefc633",
-        "ansible_memfree_mb": 1050,
+        "ansible_memfree_mb": 1077,
         "ansible_memory_mb": {
             "nocache": {
-                "free": 1248,
-                "used": 224
+                "free": 1253,
+                "used": 219
             },
             "real": {
-                "free": 1050,
+                "free": 1077,
                 "total": 1472,
-                "used": 422
+                "used": 395
             },
             "swap": {
                 "cached": 0,
@@ -631,18 +549,18 @@ node4.example.com | SUCCESS => {
         "ansible_memtotal_mb": 1472,
         "ansible_mounts": [
             {
-                "block_available": 1473980,
+                "block_available": 1490857,
                 "block_size": 4096,
                 "block_total": 1857024,
-                "block_used": 383044,
+                "block_used": 366167,
                 "device": "/dev/mapper/rhel-root",
                 "fstype": "xfs",
-                "inode_available": 3684424,
+                "inode_available": 3686488,
                 "inode_total": 3719168,
-                "inode_used": 34744,
+                "inode_used": 32680,
                 "mount": "/",
                 "options": "rw,seclabel,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
-                "size_available": 6037422080,
+                "size_available": 6106550272,
                 "size_total": 7606370304,
                 "uuid": "f238e059-489a-44a2-bb4e-92fd3e7ea666"
             },
@@ -661,22 +579,6 @@ node4.example.com | SUCCESS => {
                 "size_available": 881086464,
                 "size_total": 1063256064,
                 "uuid": "85811473-244e-4955-859c-eb6ee73992f5"
-            },
-            {
-                "block_available": 249511,
-                "block_size": 4096,
-                "block_total": 259584,
-                "block_used": 10073,
-                "device": "/dev/mapper/vgdata-lvdata",
-                "fstype": "xfs",
-                "inode_available": 524285,
-                "inode_total": 524288,
-                "inode_used": 3,
-                "mount": "/data",
-                "options": "rw,seclabel,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
-                "size_available": 1021997056,
-                "size_total": 1063256064,
-                "uuid": "eecaaf23-0877-4b0b-b336-bc4e0bdb5c75"
             }
         ],
         "ansible_nodename": "node4.example.com",
@@ -708,7 +610,7 @@ node4.example.com | SUCCESS => {
         "ansible_processor_vcpus": 2,
         "ansible_product_name": "Standard PC (Q35 + ICH9, 2009)",
         "ansible_product_serial": "NA",
-        "ansible_product_uuid": "d1e33a8f-ab75-4de3-b074-5fc049602506",
+        "ansible_product_uuid": "8ef11cae-5a5f-4f17-8675-ae71d34e8488",
         "ansible_product_version": "pc-q35-4.2",
         "ansible_python": {
             "executable": "/usr/libexec/platform-python",
@@ -789,7 +691,7 @@ node4.example.com | SUCCESS => {
         ],
         "ansible_system_capabilities_enforced": "True",
         "ansible_system_vendor": "QEMU",
-        "ansible_uptime_seconds": 54348,
+        "ansible_uptime_seconds": 4713,
         "ansible_user_dir": "/root",
         "ansible_user_gecos": "root",
         "ansible_user_gid": 0,
