@@ -7,7 +7,6 @@
       when: 
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver'] or
           hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
-      
       dnf:
         name: 
           - php
