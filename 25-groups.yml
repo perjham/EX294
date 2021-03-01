@@ -23,4 +23,4 @@
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
       dnf:
         name: '@Development tools'
-        state: present 
+        state: present
