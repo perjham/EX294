@@ -3,7 +3,6 @@
   hosts: all
   become: True
   tasks:
-<<<<<<< HEAD
     - name: Only on webserver group
       when: 
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver'] or
@@ -20,8 +19,6 @@
         name: '@Development tools'
         state: present
     - name: On group webserver
-=======
->>>>>>> second_attempt
       when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
       dnf:
