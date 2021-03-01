@@ -3,11 +3,11 @@
   hosts: all
   become: True
   tasks:
-    - name: Create root cron
+    - name: Cron
       when:
-        - "'proxy' in hostvars[inventory_hostname]['group_names']"
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['proxy']
       cron:
-        name: "date command"
-        user: root
+        name: "time.log"
         minute: "0"
-        job: "date >> /var/log/time.log" 
+        job: "date >> /var/log/time.log"
+        user: root

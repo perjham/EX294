@@ -3,28 +3,20 @@
   hosts: all
   become: True
   tasks:
-    - name: Modifying ssh banner
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^Banner '
-        insertafter: '^#Banner '
-        line: Banner /etc/motd
-    - name: Modifying X11Forwarding
+    - name: Disable XFor
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: '^X11Forwarding '
         insertafter: '^#X11Forwarding '
-        line: X11Forwarding yes
-    - name: Modifying MaxAuthTries
+        line: X11Forwarding no
+    - name: Modify MaxAuthTries
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: '^MaxAuthTries '
         insertafter: '^#MaxAuthTries '
         line: MaxAuthTries 3
-    - name: Restarting sshd
+    - name: Restarted sshd
       systemd:
         name: sshd
         state: restarted
         enabled: yes
-
-

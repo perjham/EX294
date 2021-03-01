@@ -3,19 +3,24 @@
   hosts: all
   become: True
   tasks:
-    - name: If vgdata does not exists
+    - name: vgdata exists
       when:
-        - "'vgdata' not in ansible_facts['lvm']['vgs']"
+        - " 'vgdata' not in ansible_facts['lvm']['vgs']"
       debug:
-        msg: vgdata does not exist
-    - name: If vgdata exists
-      when:
-        - "'vgdata' in ansible_facts['lvm']['vgs']"
-      debug:
-        msg: vgdata exists
-    - name: vgdata exist an has less than 1 GB
+        msg: vgdata does not exists
+    - name: vgdata exists
       when:
         - "'vgdata' in ansible_facts['lvm']['vgs']"
-        - ansible_facts['lvm']['vgs']['vgdata']['size_g'] < '1'
       debug:
-        msg: insufficient disk space available
+        msg: vgdata does exists
+    - name: vgdata .es 1GB
+      when:
+        - "'vgdata' in ansible_facts['lvm']['vgs']"
+      block:
+        - when:
+            - ansible_facts['lvm']['vgs']['vgdata']['free_g'] < '1'
+          debug:
+            msg: Insufficient disk space available”
+
+
+

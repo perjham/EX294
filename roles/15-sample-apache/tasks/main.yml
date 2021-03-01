@@ -1,28 +1,29 @@
 ---
-# tasks file for 15-sample-apache
-- name: Only in webserver group
-  when:
-    - "'webserver' in hostvars[inventory_hostname]['group_names']"
+# tasks file for 15-samplie-apache
+- when:
+    - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
   block:
-    - name: Install Apache packages
-      dnf:
-        name:
-          - httpd
-          - mod_ssl
-          - php
-        state: present
-    - name: Configure firewalld
-      with_items: "{{ services }}"
-      firewalld:
-        service: "{{ item }}"
-        permanent: yes
-        state: enabled
-        immediate: yes
-    - name: Configuring index
-      template:
-        src: index.html.j2
-        dest: /var/www/html/index.html
-      notify: restart_httpd
-      
+  - name: Install packages
+    dnf:
+      name:
+        - httpd
+        - mod_ssl
+        - php
+      state: latest
+  - name: Enabled Firewalld
+    with_items:
+      - http
+      - https
+    firewalld:
+      service: "{{ item }}"
+      permanent: yes
+      immediate: yes
+      state: enabled
+  - name: Copy template
+    template:
+      src: index.html.j2
+      dest: /var/www/html/index.html
+    notify: restart_httpd
+
 
 

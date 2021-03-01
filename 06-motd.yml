@@ -3,22 +3,21 @@
   hosts: all
   become: True
   tasks:
-    - name: On group Proxy
+    - name: On proxy Group
       when:
-        - "'proxy' in hostvars[inventory_hostname]['group_names']"
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['proxy']
       copy:
         content: Welcome to HAProxy server
         dest: /etc/motd
-    - name: On group Webserver
+    - name: On webserver Group
       when:
-        - "'webserver' in hostvars[inventory_hostname]['group_names']"
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
       copy:
         content: Welcome to Apache server
         dest: /etc/motd
-    - name: On group Database
+    - name: On database Group
       when:
-        - "'database' in hostvars[inventory_hostname]['group_names']"
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
       copy:
         content: Welcome to MySQL server
         dest: /etc/motd
-        

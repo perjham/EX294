@@ -9,10 +9,7 @@
       file:
         dest: /root/cloudcreds.txt
         state: touch
-    - name: Create file
-      with_items: "{{ variables }}"
-      lineinfile:
-        line: "{{ item.varname }} = {{ item.value }}"
-        path: /root/cloudcreds.txt
-
-  
+    - name: Create content
+      copy:
+        content: "CLOUDID = {{ CLOUDID }}\nCLOUDPASS = {{ CLOUDPASS }}"
+        dest: /root/cloudcreds.txt

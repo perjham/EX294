@@ -3,26 +3,9 @@
   hosts: all
   become: True
   tasks:
-    - name: Only on webserver group
-      when: 
-        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver'] or
-          hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
-      
-      dnf:
-        name: 
-          - php
-          - perl
-        state: present
-    - name: On group database
-      when:
-        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
-      dnf:
-        name: '@Development tools'
-        state: present
-    - name: On group webserver
+    - name: Install Group
       when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
       dnf:
-        name: '*'
-        state: latest
-
+        name: '@Development tools'
+        state: present 
