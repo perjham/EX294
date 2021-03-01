@@ -3,35 +3,32 @@
   hosts: all
   become: True
   tasks:
-    - name: On server that has second drive vdb
-      when:
-        - " 'vdb' in ansible_facts['devices']"
+    - when:
+        - "'vdb' in ansible_facts['devices']"
       block:
-        - name: create partition in /dev/vdb
+        - name: Create Partition
           parted:
             device: /dev/vdb
             number: 1
             state: present
-        - name: Create VG vgdata
+        - name: Create VG
           lvg:
             vg: vgdata
             pvs: /dev/vdb1
-            pesize: 8M
-        - name: Create LV lvdata
+            pesize: '8'
+        - name: Create LV
           lvol:
             vg: vgdata
             lv: lvdata
-            size: 100%FREE
-        - name: Formatting lvdata with xfs
+            size: 100%VG
+            state: present
+        - name: Formatting
           filesystem:
             fstype: xfs
             dev: /dev/vgdata/lvdata
-        - name: Mounting 
+        - name: mount
           mount:
             path: /data
             src: /dev/vgdata/lvdata
             fstype: xfs
             state: mounted
-            
-        
-        

@@ -3,17 +3,16 @@
   hosts: all
   become: True
   tasks:
-    - name: More than 1.5 GB
-      when:
+    - name: Server more than 1500 MB memory
+      when: 
         - ansible_facts['memtotal_mb'] > 1500
       sysctl:
         name: vm.swappiness
         value: '10'
         state: present
-        reload: yes
-    - name: Less than 1.5 GB
+    - name: Server less than 1500 MB memory
       when:
         - ansible_facts['memtotal_mb'] < 1500
       debug:
         msg: Server memory less than 1500 MB
-     
+

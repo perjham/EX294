@@ -3,12 +3,10 @@
   hosts: all
   become: True
   tasks:
-    - name: List
-      when:
-        - "'database' in hostvars[inventory_hostname]['group_names']"
+    - when:
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
       template:
         src: ./templates/server_list.j2
         dest: /etc/server_list.txt
-        owner: ansible
         mode: 0600
         setype: net_conf_t

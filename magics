@@ -10,11 +10,11 @@ node4.example.com | SUCCESS => {
         "ansible_playbook_python": "/usr/libexec/platform-python",
         "ansible_verbosity": 0,
         "ansible_version": {
-            "full": "2.9.17",
+            "full": "2.9.18",
             "major": 2,
             "minor": 9,
-            "revision": 17,
-            "string": "2.9.17"
+            "revision": 18,
+            "string": "2.9.18"
         },
         "group_names": [
             "backend",
@@ -22,10 +22,10 @@ node4.example.com | SUCCESS => {
         ],
         "groups": {
             "all": [
-                "node1.example.com",
                 "node2.example.com",
                 "node3.example.com",
-                "node4.example.com"
+                "node4.example.com",
+                "node1.example.com"
             ],
             "backend": [
                 "node2.example.com",
@@ -51,7 +51,7 @@ node4.example.com | SUCCESS => {
         "inventory_file": "/home/ansible/plays/inventory",
         "inventory_hostname": "node4.example.com",
         "inventory_hostname_short": "node4",
-        "omit": "__omit_place_holder__996d335e651e66bdaa95bd53d3068844748635ea",
+        "omit": "__omit_place_holder__d90285315bc1e36ba76600eeebaa39bb85a7e552",
         "playbook_dir": "/home/ansible/plays"
     }
 }

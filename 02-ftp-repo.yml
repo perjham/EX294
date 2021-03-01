@@ -2,47 +2,44 @@
 - name: 'TASK 2: Configure Repository I'
   hosts: localhost
   become: True
-  roles:
-    - rhel-system-roles.selinux
-  vars:
-    selinux_booleans:
-      - { name: 'ftpd_full_access', state: 'on' , persistent: 'yes' }
-  pre_tasks:
-    - name: Mount DVD read-only
+  tasks:
+    - name: Mount Iso
       mount:
         path: /ftp_repo
         src: /dev/sr0
         fstype: iso9660
-        opts: ro
         state: mounted
-    - name: Enabling Firewalld
-      systemd:
-        name: firewalld
-        state: restarted
-        enabled: yes
-    - name: Installing FTP
-      dnf:
-        name: vsftpd
-        state: present
-    - name: Enabled Anonymous acces to FTP
-      lineinfile:
-        path: /etc/vsftpd/vsftpd.conf
-        regexp: '^anonymous_enable='
-        line: anonymous_enable=YES
-    - name: Modifying Anonymous root
-      lineinfile:
-        path: /etc/vsftpd/vsftpd.conf
-        regexp: '^anon_root='
-        line: anon_root=/ftp_repo
-    - name: Enabling VSFTPD
-      systemd:
-        name: vsftpd
-        state: restarted
-        enabled: yes
-    - name: Configure firewalld for ftp access
+    - name: Enable firewall
       firewalld:
         service: ftp
         permanent: yes
         state: enabled
         immediate: yes
+    - name: Install vsftp
+      dnf:
+        name: vsftpd
+        state: present
+    - name: Enable anonymous access
+      lineinfile:
+        path: /etc/vsftpd/vsftpd.conf
+        regexp: '^anonymous_enable='
+        insertafter: '^#anonymous_enable='
+        line: anonymous_enable=YES
+    - name: Configure root repo
+      lineinfile:
+        path: /etc/vsftpd/vsftpd.conf
+        regexp: '^anon_root='
+        insertafter: '^#anon_root='
+        line: anon_root=/ftp_repo
+    - name: Enable vsftp
+      systemd:
+        name: vsftpd
+        state: restarted
+        enabled: yes
+    - name: Configure Selinux
+      include_role:
+        name: rhel-system-roles.selinux
+      vars:
+        selinux_booleans:
+          - { name: 'ftpd_full_access', state: 'on', persistent: 'yes' }        
 

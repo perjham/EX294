@@ -1,5 +1,4 @@
 ---
-- import_playbook: ./24-settime-enable-ntp.yml
 - name: 'TASK 24: Roles'
   hosts: all
   become: True
@@ -9,5 +8,24 @@
         iburst: yes
   roles:
     - rhel-system-roles.timesync
-
-
+- name: Enabled cronyd
+  hosts: localhost
+  become: True
+  tasks:
+    - dnf:
+        name: chrony
+    - firewalld:
+        service: ntp
+        permanent: yes
+        state: enabled
+        immediate: yes
+    - lineinfile:
+        path: /etc/chrony.conf
+        regexp: '^allow '
+        insertafter: '^#allow '
+        line: allow 0.0.0.0/0
+    - systemd:
+        name: chronyd
+        state: restarted
+        enabled: yes
+          

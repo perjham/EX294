@@ -12,22 +12,19 @@
     haproxy_backend_balance_method: 'roundrobin'
     haproxy_backend_servers:
       - name: node2.example.com
-        address: 192.168.122.102:80
+        address: 192.168.122.102
       - name: node3.example.com
-        address: 192.168.122.103:80
-    services:
-      - http
-      - https
+        address: 192.168.122.103
   tasks:
-    - when:
-        - "'proxy' in hostvars[inventory_hostname]['group_names']"
+    - when: 
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['proxy']
       block:
         - include_role:
             name: geerlingguy.haproxy
-        - with_items: "{{ services }}"
+        - name: 'Enable firewall =)'
           firewalld:
-            service: "{{ item }}"
+            service: http
             permanent: yes
             state: enabled
             immediate: yes
-  
+

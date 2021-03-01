@@ -1,48 +1,44 @@
 ---
-- name: " TASK3 :Configure Repository II"
+- name: 'TASK 3: Configure Repository II'
   hosts: localhost
   become: True
-  roles:
-    - rhel-system-roles.selinux
-  vars:
-    firewalld:
-      - http
-      - https
-    selinux_fcontexts:
-      - { target: '/http_repo(/.*)?', setype: 'httpd_sys_content_t', state: 'present' }  
-    selinux_restore_dirs:
-      - /http_repo
-  pre_tasks:
-    - name: Install http
+  tasks:
+    - name: Install Apache Web sErver
       dnf:
-        name:
-          - httpd
-          - mod_ssl
-        state: present
-    - name: Enabled Firewall services
-      with_items: "{{ firewalld }}"
+        name: httpd
+        state: latest
+    - name: Configure Apache Root
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^DocumentRoot '
+        insertafter: '^#DocumentRoot '
+        line: DocumentRoot /http_repo
+    - name: Configure Apache Root
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^<Directory "/var/www/html">'
+        insertafter: '^#<Directory "/var/www/html">'
+        line: '<Directory "/http_repo">'
+    - name: Configure firewall
+      with_items:
+        - http
+        - https
       firewalld:
         service: "{{ item }}"
         permanent: yes
         state: enabled
         immediate: yes
-    - name: Modify Document Root of Apache
-      lineinfile:
-        path: /etc/httpd/conf/httpd.conf
-        regexp: '^DocumentRoot '
-        insertafter: '^#DocumentRoot '
-        line: DocumentRoot "/http_repo"
-    - name: Modify Document Root of Apache
-      lineinfile:
-        path: /etc/httpd/conf/httpd.conf
-        regexp: '^<Directory "/var/www/html">'
-        insertafter: '^#<Directory "/var/www/html">'
-        line: <Directory "/http_repo">
-    - name: Restarting and enable Apache
+    - name: Enabling httpd
       systemd:
         name: httpd
         state: restarted
         enabled: yes
-
-
+    - name: Configure Selinux
+      include_role:
+        name: rhel-system-roles.selinux
+      vars:
+        selinux_fcontexts:
+          - { target: '/http_repo(/.*)?', setype: 'httpd_sys_content_t', ftype: 'a', state: 'present' }
+        selinux_restore_dirs:
+          - /http_repo
 

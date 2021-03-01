@@ -3,16 +3,16 @@
   hosts: all
   become: True
   tasks:
-    - name: Create custom facts
-      when:
-        - "'database' in hostvars[inventory_hostname]['group_names']"
+    - when:
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
       block:
-        - file:
-            dest: /etc/ansible/facts.d
+        - name: Create dir
+          file:
+            path: /etc/ansible/facts.d
             state: directory
-        - copy:
-            dest: /etc/ansible/facts.d/custom.fact
+        - name: Create fact
+          copy:
             content: "[sample_exam]\nserver_role=mysql"
-        - debug:
-            msg: "{{ ansible_local.custom.sample_exam }}"
+            dest: /etc/ansible/facts.d/custom.fact
+
 

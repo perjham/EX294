@@ -4,4 +4,3 @@
   become: True
   roles:
     - 15-sample-apache
-

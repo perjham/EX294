@@ -5,19 +5,24 @@
   vars_files:
     - ./vars/11-user_list2.yml
   tasks:
-    - name: On webserver
+    - name: Users who department profs
       when:
-        - "'webserver' in hostvars[inventory_hostname]['group_names']"
-        - item.department == 'profs' 
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
       block:
         - with_items: "{{ users }}"
+          when:
+            - item.department == 'profs'
           group:
             name: "{{ item.department }}"
             state: present
         - with_items: "{{ users }}"
+          when:
+            - item.department == 'profs'
           user:
             name: "{{ item.name }}"
             groups: "{{ item.department }}"
             password: "{{ item.password | password_hash('sha256') }}"
+
+
 
 
