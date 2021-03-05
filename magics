@@ -22,10 +22,10 @@ node4.example.com | SUCCESS => {
         ],
         "groups": {
             "all": [
+                "node1.example.com",
                 "node2.example.com",
                 "node3.example.com",
-                "node4.example.com",
-                "node1.example.com"
+                "node4.example.com"
             ],
             "backend": [
                 "node2.example.com",
@@ -51,7 +51,7 @@ node4.example.com | SUCCESS => {
         "inventory_file": "/home/ansible/plays/inventory",
         "inventory_hostname": "node4.example.com",
         "inventory_hostname_short": "node4",
-        "omit": "__omit_place_holder__d90285315bc1e36ba76600eeebaa39bb85a7e552",
+        "omit": "__omit_place_holder__2b71b190c9ee5a4088c174504e4cb508b7abaac9",
         "playbook_dir": "/home/ansible/plays"
     }
 }

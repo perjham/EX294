@@ -1,7 +1,6 @@
 ---
 - name: 'TASK 16: Download Roles From Ansible Galaxy and Use Them'
   hosts: all
-  become: True
   vars:
     haproxy_frontend_name: 'hafrontend'
     haproxy_frontend_bind_address: '*'
@@ -12,19 +11,22 @@
     haproxy_backend_balance_method: 'roundrobin'
     haproxy_backend_servers:
       - name: node2.example.com
-        address: 192.168.122.102
-      - name: node3.example.com
-        address: 192.168.122.103
+        address: 192.168.122.102:80
+      - name: app2
+        address: 192.168.122.103:80
   tasks:
-    - when: 
-        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['proxy']
-      block:
-        - include_role:
-            name: geerlingguy.haproxy
-        - name: 'Enable firewall =)'
-          firewalld:
-            service: http
-            permanent: yes
-            state: enabled
-            immediate: yes
+    - name: On proxy group
+      when:
+        - hostvars[inventory_hostname]['inventory_hostname'] in  hostvars[inventory_hostname]['groups']['proxy']
+      include_role:
+        name: geerlingguy.haproxy
+    - name: Configure Firewall
+      with_items:
+        - http
+        - https
+      firewalld:
+        service: "{{ item }}"
+        permanent: yes
+        state: enabled
+        immediate: yes
 

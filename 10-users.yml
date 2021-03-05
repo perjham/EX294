@@ -1,31 +1,33 @@
 ---
 - name: 'TASK 10: Users and Groups I'
   hosts: all
-  become: True
   vars_files:
-    - ./vars/10-secret.yml
     - ./vars/10-user-list.yml
+    - ./vars/10-secret.yml
   tasks:
-    - name: ID starts with 1
+    - name: Users ID start with 1
       with_items: "{{ users }}"
       when:
-        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver'] and
-         item.uid | string | first == '1'
+        - item.uid | string | first == '1' and
+          hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
       user:
         name: "{{ item.username }}"
-        password: "{{ user_password | password_hash('sha512') }}"
         groups: wheel
-        append: yes
         shell: /bin/bash
-    - name: ID starts with 2
+        append: yes
+        password: "{{ user_password | password_hash ('sha512') }}"
+    - name: Users ID start with 2
       with_items: "{{ users }}"
       when:
-        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database'] and
-         item.uid | string | first == '2'
+        - item.uid | string | first == '2' and
+          hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
       user:
         name: "{{ item.username }}"
-        password: "{{ user_password | password_hash('sha512') }}"
         groups: wheel
-        append: yes
         shell: /bin/bash
+        append: yes
+        password: "{{ user_password | password_hash ('sha512') }}"
+
+
+
 

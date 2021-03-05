@@ -1,7 +1,6 @@
 ---
 - name: 'TASK 12: Scheduled Tasks'
   hosts: all
-  become: True
   tasks:
     - name: Cron
       when:

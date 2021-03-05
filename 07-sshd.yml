@@ -1,21 +1,23 @@
 ---
 - name: 'TASK 7: Configure SSH Server'
   hosts: all
-  become: True
   tasks:
-    - name: Disable XFor
+    - name: Modify X11
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: '^X11Forwarding '
         insertafter: '^#X11Forwarding '
         line: X11Forwarding no
-    - name: Modify MaxAuthTries
+      notify: restart-sshd
+    - name: Modify MaxAuth
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: '^MaxAuthTries '
         insertafter: '^#MaxAuthTries '
         line: MaxAuthTries 3
-    - name: Restarted sshd
+      notify: restart-sshd
+  handlers:
+    - name: restart-sshd
       systemd:
         name: sshd
         state: restarted

@@ -1,26 +1,23 @@
 ---
 - name: 'TASK 9: LVM II'
   hosts: all
-  become: True
   tasks:
-    - name: vgdata exists
+    - name: vgdata not exists
       when:
-        - " 'vgdata' not in ansible_facts['lvm']['vgs']"
+        - ansible_facts['lvm']['vgs']['vgdata'] is not defined
       debug:
         msg: vgdata does not exists
     - name: vgdata exists
       when:
-        - "'vgdata' in ansible_facts['lvm']['vgs']"
+        - ansible_facts['lvm']['vgs']['vgdata'] is defined
       debug:
-        msg: vgdata does exists
-    - name: vgdata .es 1GB
+        msg: vgdata exists
+    - name: vgdata exists
       when:
-        - "'vgdata' in ansible_facts['lvm']['vgs']"
-      block:
-        - when:
-            - ansible_facts['lvm']['vgs']['vgdata']['free_g'] < '1'
-          debug:
-            msg: Insufficient disk space available”
+        - ansible_facts['lvm']['vgs']['vgdata'] is defined and
+          ansible_facts['lvm']['vgs']['vgdata']['free_g'] < '1'
+      debug:
+        msg: Insufficient disk space available
 
 
 

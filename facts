@@ -4,9 +4,7 @@ node4.example.com | SUCCESS => {
             "192.168.122.104"
         ],
         "ansible_all_ipv6_addresses": [
-            "fe80::4543:836f:cd7f:363e",
-            "fe80::88f:ea6b:4745:8255",
-            "fe80::1cee:f075:2037:fc1d"
+            "fe80::88f:ea6b:4745:8255"
         ],
         "ansible_apparmor": {
             "status": "disabled"
@@ -24,23 +22,23 @@ node4.example.com | SUCCESS => {
             "root": "/dev/mapper/rhel-root"
         },
         "ansible_date_time": {
-            "date": "2021-02-26",
-            "day": "26",
-            "epoch": "1614359667",
+            "date": "2021-03-05",
+            "day": "05",
+            "epoch": "1614965452",
             "hour": "12",
-            "iso8601": "2021-02-26T17:14:27Z",
-            "iso8601_basic": "20210226T121427534421",
-            "iso8601_basic_short": "20210226T121427",
-            "iso8601_micro": "2021-02-26T17:14:27.534421Z",
-            "minute": "14",
-            "month": "02",
-            "second": "27",
-            "time": "12:14:27",
+            "iso8601": "2021-03-05T17:30:52Z",
+            "iso8601_basic": "20210305T123052797133",
+            "iso8601_basic_short": "20210305T123052",
+            "iso8601_micro": "2021-03-05T17:30:52.797133Z",
+            "minute": "30",
+            "month": "03",
+            "second": "52",
+            "time": "12:30:52",
             "tz": "EST",
             "tz_offset": "-0500",
             "weekday": "viernes",
             "weekday_number": "5",
-            "weeknumber": "08",
+            "weeknumber": "09",
             "year": "2021"
         },
         "ansible_default_ipv4": {
@@ -66,8 +64,15 @@ node4.example.com | SUCCESS => {
                     "dm-name-rhel-swap",
                     "dm-uuid-LVM-6EZ6NYk0Csiu6jp1BTNQXqM4xU3C24yK2sLfceMkH5yzpWRU1U0brZ7Mh8jdBGBL"
                 ],
+                "dm-2": [
+                    "dm-name-vgdata-lvdata",
+                    "dm-uuid-LVM-IuW7s7r7D5gfiGwYhoaubadP3w7pByAs0E54vDNaJQznfsGz35gmGe9mHnICfdlL"
+                ],
                 "vda2": [
                     "lvm-pv-uuid-MblVea-rBs7-2Jyo-FoFz-Oel4-29cE-0E3IJM"
+                ],
+                "vdb1": [
+                    "lvm-pv-uuid-ZjtlKT-3cON-7GMs-uUCp-hKKk-odjs-jhWgtb"
                 ]
             },
             "labels": {},
@@ -75,6 +80,9 @@ node4.example.com | SUCCESS => {
                 "vda2": [
                     "dm-0",
                     "dm-1"
+                ],
+                "vdb1": [
+                    "dm-2"
                 ]
             },
             "uuids": {
@@ -83,6 +91,9 @@ node4.example.com | SUCCESS => {
                 ],
                 "dm-1": [
                     "ba780c1a-0bad-4c74-9522-d6eeafb6e837"
+                ],
+                "dm-2": [
+                    "399fcb15-79ac-4d96-9b66-9c16ffe233ca"
                 ],
                 "vda1": [
                     "85811473-244e-4955-859c-eb6ee73992f5"
@@ -142,6 +153,34 @@ node4.example.com | SUCCESS => {
                 "sectors": "1892352",
                 "sectorsize": "512",
                 "size": "924.00 MB",
+                "support_discard": "512",
+                "vendor": null,
+                "virtual": 1
+            },
+            "dm-2": {
+                "holders": [],
+                "host": "",
+                "links": {
+                    "ids": [
+                        "dm-name-vgdata-lvdata",
+                        "dm-uuid-LVM-IuW7s7r7D5gfiGwYhoaubadP3w7pByAs0E54vDNaJQznfsGz35gmGe9mHnICfdlL"
+                    ],
+                    "labels": [],
+                    "masters": [],
+                    "uuids": [
+                        "399fcb15-79ac-4d96-9b66-9c16ffe233ca"
+                    ]
+                },
+                "model": null,
+                "partitions": {},
+                "removable": "0",
+                "rotational": "1",
+                "sas_address": null,
+                "sas_device_handle": null,
+                "scheduler_mode": "",
+                "sectors": "1032192",
+                "sectorsize": "512",
+                "size": "504.00 MB",
                 "support_discard": "512",
                 "vendor": null,
                 "virtual": 1
@@ -218,7 +257,28 @@ node4.example.com | SUCCESS => {
                     "uuids": []
                 },
                 "model": null,
-                "partitions": {},
+                "partitions": {
+                    "vdb1": {
+                        "holders": [
+                            "vgdata-lvdata"
+                        ],
+                        "links": {
+                            "ids": [
+                                "lvm-pv-uuid-ZjtlKT-3cON-7GMs-uUCp-hKKk-odjs-jhWgtb"
+                            ],
+                            "labels": [],
+                            "masters": [
+                                "dm-2"
+                            ],
+                            "uuids": []
+                        },
+                        "sectors": "1046528",
+                        "sectorsize": 512,
+                        "size": "511.00 MB",
+                        "start": "2048",
+                        "uuid": null
+                    }
+                },
                 "removable": "0",
                 "rotational": "1",
                 "sas_address": null,
@@ -344,17 +404,7 @@ node4.example.com | SUCCESS => {
             },
             "ipv6": [
                 {
-                    "address": "fe80::4543:836f:cd7f:363e",
-                    "prefix": "64",
-                    "scope": "link"
-                },
-                {
                     "address": "fe80::88f:ea6b:4745:8255",
-                    "prefix": "64",
-                    "scope": "link"
-                },
-                {
-                    "address": "fe80::1cee:f075:2037:fc1d",
                     "prefix": "64",
                     "scope": "link"
                 }
@@ -374,17 +424,7 @@ node4.example.com | SUCCESS => {
         },
         "ansible_env": {
             "HOME": "/root",
-            "LANG": "C",
-            "LC_ADDRESS": "es_PE.UTF-8",
-            "LC_ALL": "C",
-            "LC_IDENTIFICATION": "es_PE.UTF-8",
-            "LC_MEASUREMENT": "es_PE.UTF-8",
-            "LC_MONETARY": "es_PE.UTF-8",
-            "LC_NAME": "es_PE.UTF-8",
-            "LC_NUMERIC": "C",
-            "LC_PAPER": "es_PE.UTF-8",
-            "LC_TELEPHONE": "es_PE.UTF-8",
-            "LC_TIME": "es_PE.UTF-8",
+            "LANG": "es_PE.UTF-8",
             "LOGNAME": "root",
             "LS_COLORS": "rs=0:di=38;5;33:ln=38;5;51:mh=00:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=01;05;37;41:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;40:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lz4=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.zst=38;5;9:*.tzst=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.wim=38;5;9:*.swm=38;5;9:*.dwm=38;5;9:*.esd=38;5;9:*.jpg=38;5;13:*.jpeg=38;5;13:*.mjpg=38;5;13:*.mjpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.webm=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.m4a=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.oga=38;5;45:*.opus=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:",
             "MAIL": "/var/mail/root",
@@ -392,7 +432,7 @@ node4.example.com | SUCCESS => {
             "PWD": "/home/ansible",
             "SHELL": "/bin/bash",
             "SHLVL": "1",
-            "SUDO_COMMAND": "/bin/sh -c echo BECOME-SUCCESS-hotiyzrelrhttrahaunhyutdmnewsudi ; /usr/libexec/platform-python /home/ansible/.ansible/tmp/ansible-tmp-1614359665.3904433-20432-275583534154990/AnsiballZ_setup.py",
+            "SUDO_COMMAND": "/bin/sh -c echo BECOME-SUCCESS-kkxgtdaaxvbckzqqpitpygouiwcvpdri ; /usr/libexec/platform-python /home/ansible/.ansible/tmp/ansible-tmp-1614965451.4364192-10227-141972770037723/AnsiballZ_setup.py",
             "SUDO_GID": "1000",
             "SUDO_UID": "1000",
             "SUDO_USER": "ansible",
@@ -407,8 +447,8 @@ node4.example.com | SUCCESS => {
         "ansible_hostname": "node4",
         "ansible_hostnqn": "",
         "ansible_interfaces": [
-            "enp1s0",
-            "lo"
+            "lo",
+            "enp1s0"
         ],
         "ansible_is_chroot": false,
         "ansible_iscsi_iqn": "",
@@ -502,6 +542,10 @@ node4.example.com | SUCCESS => {
         "ansible_lsb": {},
         "ansible_lvm": {
             "lvs": {
+                "lvdata": {
+                    "size_g": "0.49",
+                    "vg": "vgdata"
+                },
                 "root": {
                     "size_g": "7.09",
                     "vg": "rhel"
@@ -516,6 +560,11 @@ node4.example.com | SUCCESS => {
                     "free_g": "0",
                     "size_g": "8.00",
                     "vg": "rhel"
+                },
+                "/dev/vdb1": {
+                    "free_g": "0",
+                    "size_g": "0.49",
+                    "vg": "vgdata"
                 }
             },
             "vgs": {
@@ -524,21 +573,27 @@ node4.example.com | SUCCESS => {
                     "num_lvs": "2",
                     "num_pvs": "1",
                     "size_g": "8.00"
+                },
+                "vgdata": {
+                    "free_g": "0",
+                    "num_lvs": "1",
+                    "num_pvs": "1",
+                    "size_g": "0.49"
                 }
             }
         },
         "ansible_machine": "x86_64",
         "ansible_machine_id": "e92c96b9a8c44ac080b2d6ad8aefc633",
-        "ansible_memfree_mb": 1404,
+        "ansible_memfree_mb": 1397,
         "ansible_memory_mb": {
             "nocache": {
-                "free": 1732,
-                "used": 244
+                "free": 1731,
+                "used": 245
             },
             "real": {
-                "free": 1404,
+                "free": 1397,
                 "total": 1976,
-                "used": 572
+                "used": 579
             },
             "swap": {
                 "cached": 0,
@@ -550,18 +605,18 @@ node4.example.com | SUCCESS => {
         "ansible_memtotal_mb": 1976,
         "ansible_mounts": [
             {
-                "block_available": 1469307,
+                "block_available": 1469650,
                 "block_size": 4096,
                 "block_total": 1857024,
-                "block_used": 387717,
+                "block_used": 387374,
                 "device": "/dev/mapper/rhel-root",
                 "fstype": "xfs",
-                "inode_available": 3683732,
+                "inode_available": 3684416,
                 "inode_total": 3719168,
-                "inode_used": 35436,
+                "inode_used": 34752,
                 "mount": "/",
                 "options": "rw,seclabel,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
-                "size_available": 6018281472,
+                "size_available": 6019686400,
                 "size_total": 7606370304,
                 "uuid": "f238e059-489a-44a2-bb4e-92fd3e7ea666"
             },
@@ -580,6 +635,22 @@ node4.example.com | SUCCESS => {
                 "size_available": 881086464,
                 "size_total": 1063256064,
                 "uuid": "85811473-244e-4955-859c-eb6ee73992f5"
+            },
+            {
+                "block_available": 120254,
+                "block_size": 4096,
+                "block_total": 127656,
+                "block_used": 7402,
+                "device": "/dev/mapper/vgdata-lvdata",
+                "fstype": "xfs",
+                "inode_available": 258045,
+                "inode_total": 258048,
+                "inode_used": 3,
+                "mount": "/data",
+                "options": "rw,seclabel,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
+                "size_available": 492560384,
+                "size_total": 522878976,
+                "uuid": "399fcb15-79ac-4d96-9b66-9c16ffe233ca"
             }
         ],
         "ansible_nodename": "node4.example.com",
@@ -692,7 +763,7 @@ node4.example.com | SUCCESS => {
         ],
         "ansible_system_capabilities_enforced": "True",
         "ansible_system_vendor": "QEMU",
-        "ansible_uptime_seconds": 5811,
+        "ansible_uptime_seconds": 9576,
         "ansible_user_dir": "/root",
         "ansible_user_gecos": "root",
         "ansible_user_gid": 0,

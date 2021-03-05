@@ -1,7 +1,7 @@
 ---
 # handlers file for 15-sample-apache
-- name: restart_httpd
+- name: restart-httpd
   systemd:
-    state: restarted
     name: httpd
+    state: restarted
     enabled: yes

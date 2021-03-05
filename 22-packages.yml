@@ -1,16 +1,18 @@
 ---
-- name: 'TASK 22:  Facts'
+- name: 'TASK 22: Facts'
   hosts: all
-  become: True
   tasks:
     - name: Gather the rpm package facts
       package_facts:
         manager: auto
-    - name: Print version packages
+    - file:
+        dest: /root/packages.txt
+        state: touch
+    - name: Generate file
       with_items:
         - kernel
         - bash
         - glibc
       lineinfile:
-        line: "{{ ansible_facts.packages[item][0]['name'] }} = {{ ansible_facts.packages[item][0]['version'] }}"
+        line: "{{ item }} = {{ ansible_facts['packages'][item][0]['version'] }}"
         dest: /root/packages.txt

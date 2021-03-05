@@ -1,21 +1,22 @@
 ---
 - name: 'TASK 19: Use Archiving'
   hosts: all
-  become: True
   tasks:
-    - when:
+    - name: On database group
+      when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
       block:
-        - name: Create dir first
+        - name: file
           file:
-            path: /mysql_backups
+            dest: /mysql_backups
             state: directory
-        - name: Create file
+        - name: file
           copy:
-            content: 'dev,test,qa,prod'
+            content: dev,test,qa,prod
             dest: /mysql_backups/database_list.txt
-        - name: Create compress archive
+        - name: gzip
           archive:
             path: /mysql_backups/database_list.txt
             dest: /mysql_backups/archive.gz
             format: gz
+

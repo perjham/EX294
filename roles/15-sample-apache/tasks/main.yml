@@ -1,29 +1,27 @@
 ---
-# tasks file for 15-samplie-apache
-- when:
-    - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
-  block:
-  - name: Install packages
-    dnf:
-      name:
-        - httpd
-        - mod_ssl
-        - php
-      state: latest
-  - name: Enabled Firewalld
-    with_items:
-      - http
-      - https
-    firewalld:
-      service: "{{ item }}"
-      permanent: yes
-      immediate: yes
-      state: enabled
-  - name: Copy template
-    template:
-      src: index.html.j2
-      dest: /var/www/html/index.html
-    notify: restart_httpd
-
-
-
+# tasks file for 15-sample-apache
+- name: Install apache
+  dnf:
+    name:
+      - httpd
+      - mod_ssl
+    state: present
+- name: Firewall
+  with_items:
+    - http
+    - https
+  firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+- name: Enable httpd
+  systemd:
+    name: httpd
+    state: restarted
+    enabled: yes
+- name: Configure index
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify: restart-httpd

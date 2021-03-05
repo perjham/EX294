@@ -1,45 +1,68 @@
 ---
 - name: 'TASK 2: Configure Repository I'
   hosts: localhost
-  become: True
   tasks:
-    - name: Mount Iso
+    - name: Mount DVD
       mount:
-        path: /ftp_repo
         src: /dev/sr0
-        fstype: iso9660
+        path: /ftp_repo
         state: mounted
+        fstype: iso9660
+    - name: Install firewall
+      dnf:
+        name: firewalld
+        state: present
     - name: Enable firewall
-      firewalld:
-        service: ftp
-        permanent: yes
-        state: enabled
-        immediate: yes
-    - name: Install vsftp
+      systemd:
+        name: firewalld
+        state: restarted
+        enabled: yes
+    - name: Install vsftpd
       dnf:
         name: vsftpd
         state: present
-    - name: Enable anonymous access
+    - name: Enable vsftpd
+      systemd:
+        name: vsftpd
+        state: restarted
+        enabled: yes
+    - name: Enable anonymous acces
       lineinfile:
         path: /etc/vsftpd/vsftpd.conf
         regexp: '^anonymous_enable='
         insertafter: '^#anonymous_enable='
         line: anonymous_enable=YES
-    - name: Configure root repo
+    - name: Change Anon root
       lineinfile:
         path: /etc/vsftpd/vsftpd.conf
         regexp: '^anon_root='
         insertafter: '^#anon_root='
         line: anon_root=/ftp_repo
-    - name: Enable vsftp
+      notify: restart-ftp
+    - name: Enable firewall acces
+      firewalld:
+        service: ftp
+        permanent: yes
+        state: enabled
+        immediate: yes
+    - name: Configure selinux
+      vars:
+        selinux_booleans: 
+          - { name: 'ftpd_full_access', state: 'on', persistent: 'yes' }
+        selinux_fcontexts:
+          - { target: '/ftp_repo(/.*)?', setype: 'user_home_dir_t', ftype: 'a', state: 'present' }
+        selinux_restore_dirs:
+          - /ftp_repo
+      include_role: 
+        name: rhel-system-roles.selinux
+    - name: restart-ftp
       systemd:
         name: vsftpd
         state: restarted
-        enabled: yes
-    - name: Configure Selinux
-      include_role:
-        name: rhel-system-roles.selinux
-      vars:
-        selinux_booleans:
-          - { name: 'ftpd_full_access', state: 'on', persistent: 'yes' }        
+     
+
+        
+
+
+
 

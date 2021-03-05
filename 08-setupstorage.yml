@@ -1,12 +1,12 @@
 ---
 - name: 'TASK 8: LVM I'
   hosts: all
-  become: True
   tasks:
-    - when:
-        - "'vdb' in ansible_facts['devices']"
+    - name: ON server with has second drive /dev/vdb
+      when:
+        - ansible_facts['devices']['vdb'] is defined
       block:
-        - name: Create Partition
+        - name: Create partition /dev/vdb1
           parted:
             device: /dev/vdb
             number: 1
@@ -15,20 +15,21 @@
           lvg:
             vg: vgdata
             pvs: /dev/vdb1
-            pesize: '8'
+            pesize: 8M
         - name: Create LV
           lvol:
             vg: vgdata
             lv: lvdata
             size: 100%VG
-            state: present
-        - name: Formatting
+        - name: Format XFS
           filesystem:
             fstype: xfs
             dev: /dev/vgdata/lvdata
-        - name: mount
+        - name: mount in /data
           mount:
             path: /data
             src: /dev/vgdata/lvdata
             fstype: xfs
             state: mounted
+        
+     

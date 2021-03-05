@@ -1,24 +1,14 @@
 ---
 - name: 'TASK 3: Configure Repository II'
   hosts: localhost
-  become: True
   tasks:
-    - name: Install Apache Web sErver
+    - name: Install apache and firewalld
       dnf:
-        name: httpd
-        state: latest
-    - name: Configure Apache Root
-      lineinfile:
-        path: /etc/httpd/conf/httpd.conf
-        regexp: '^DocumentRoot '
-        insertafter: '^#DocumentRoot '
-        line: DocumentRoot /http_repo
-    - name: Configure Apache Root
-      lineinfile:
-        path: /etc/httpd/conf/httpd.conf
-        regexp: '^<Directory "/var/www/html">'
-        insertafter: '^#<Directory "/var/www/html">'
-        line: '<Directory "/http_repo">'
+        name:
+          - httpd
+          - mod_ssl
+          - firewalld
+        state: present
     - name: Configure firewall
       with_items:
         - http
@@ -28,7 +18,19 @@
         permanent: yes
         state: enabled
         immediate: yes
-    - name: Enabling httpd
+    - name: Configure apache
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^DocumentRoot "/var/www/html"'
+        insertafter: '^#DocumentRoot "/var/www/html"'
+        line: DocumentRoot "/http_repo"
+    - name: Configure apache
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^<Directory "/var/www/html">'
+        insertafter: '^#<Directory "/var/www/html">'
+        line: <Directory "/http_repo">
+    - name: Restart apache
       systemd:
         name: httpd
         state: restarted
@@ -41,4 +43,10 @@
           - { target: '/http_repo(/.*)?', setype: 'httpd_sys_content_t', ftype: 'a', state: 'present' }
         selinux_restore_dirs:
           - /http_repo
+
+
+
+
+
+
 

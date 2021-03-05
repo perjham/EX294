@@ -1,23 +1,42 @@
 ---
 - name: 'TASK 6: File Content'
   hosts: all
-  become: True
   tasks:
-    - name: On proxy Group
+    - name: On proxy groups
       when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['proxy']
-      copy:
-        content: Welcome to HAProxy server
-        dest: /etc/motd
-    - name: On webserver Group
+      block:
+        - debug:
+            msg: "{{ hostvars[inventory_hostname]['inventory_hostname'] }} is inside group proxy"
+        - copy:
+            content: "Welcome to HAProxy server"
+            dest: /etc/motd
+    - name: On webserver groups
       when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
-      copy:
-        content: Welcome to Apache server
-        dest: /etc/motd
-    - name: On database Group
+      block:
+        - debug:
+            msg: "{{ hostvars[inventory_hostname]['inventory_hostname'] }} is inside group webserver"
+        - copy:
+            content: "Welcome to Apache server"
+            dest: /etc/motd
+    - name: On database groups
       when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
-      copy:
-        content: Welcome to MySQL server
-        dest: /etc/motd
+      block:
+        - debug:
+            msg: "{{ hostvars[inventory_hostname]['inventory_hostname'] }} is inside group database"
+        - copy:
+            content: "Welcome to MySQL server"
+            dest: /etc/motd
+    - name: Show results
+      shell:
+        cmd: cat /etc/motd
+      register: motd
+    - debug:
+        var: motd['stdout_lines']
+
+
+  
+
+
