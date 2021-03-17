@@ -1,18 +1,16 @@
 ---
 - name: 'TASK 18: Use Conditionals to Control Play Execution'
   hosts: all
-  become: True
   tasks:
-    - name: Server more than 1500 MB memory
-      when: 
+    - name: More than 1500MB of RAM
+      when:
         - ansible_facts['memtotal_mb'] > 1500
       sysctl:
         name: vm.swappiness
         value: '10'
         state: present
-    - name: Server less than 1500 MB memory
+    - name: Less than 1500MB of RAM
       when:
-        - ansible_facts['memtotal_mb'] < 1500
+        - ansible_facts['memtotal_mb'] <= 1500
       debug:
         msg: Server memory less than 1500 MB
-

@@ -1,13 +1,12 @@
 ---
 - name: 'TASK 12: Scheduled Tasks'
   hosts: all
-  become: True
   tasks:
-    - name: Cron
+    - name: On proxy group
       when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['proxy']
       cron:
-        name: "time.log"
-        minute: "0"
-        job: "date >> /var/log/time.log"
+        name: time.log
+        job: date >> /var/log/time.log
         user: root
+        minute: '0'

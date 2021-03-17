@@ -1,28 +1,25 @@
 ---
-- name: 'TASK 11:  Users and groups II'
+- name: 'TASK 11: Users and groups II'
   hosts: all
-  become: True
   vars_files:
     - ./vars/11-user_list2.yml
   tasks:
-    - name: Users who department profs
-      when:
+    - when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
       block:
-        - with_items: "{{ users }}"
-          when:
-            - item.department == 'profs'
-          group:
+        - group:
             name: "{{ item.department }}"
             state: present
-        - with_items: "{{ users }}"
+          with_items: "{{ users }}"
           when:
             - item.department == 'profs'
-          user:
+        - user:
             name: "{{ item.name }}"
             groups: "{{ item.department }}"
             password: "{{ item.password | password_hash('sha256') }}"
-
+          with_items: "{{ users }}"
+          when:
+            - item.department == 'profs'
 
 
 

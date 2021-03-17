@@ -1,0 +1,15 @@
+---
+- name: 'TASK 13: Software Repositories'
+  hosts: all
+  tasks:
+    - name: MySQL repo
+      yum_repository:
+        name: mysql8-community
+        description: MySQL 8 YUM Repo
+        baseurl: https://repo.mysql.com/yum/mysql-8.0-community/el/8/x86_64/
+        gpgcheck: yes
+        gpgkey: http://repo.mysql.com/RPM-GPG-KEY-mysql
+        enabled: yes
+      when:
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
+

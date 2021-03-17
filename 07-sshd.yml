@@ -1,9 +1,8 @@
 ---
 - name: 'TASK 7: Configure SSH Server'
   hosts: all
-  become: True
   tasks:
-    - name: Disable XFor
+    - name: Modify X11Forwarding
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: '^X11Forwarding '
@@ -15,8 +14,13 @@
         regexp: '^MaxAuthTries '
         insertafter: '^#MaxAuthTries '
         line: MaxAuthTries 3
-    - name: Restarted sshd
+    - name: Restart ssh
       systemd:
         name: sshd
         state: restarted
         enabled: yes
+    - shell:
+        cmd: "grep -e ^X11Forwarding -e ^MaxAuthTries /etc/ssh/sshd_config"
+      register: sshd
+    - debug:
+        msg: "{{ sshd.stdout_lines }}"

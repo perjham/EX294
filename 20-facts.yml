@@ -1,18 +1,13 @@
 ---
 - name: 'TASK 20: Work with Ansible Facts'
   hosts: all
-  become: True
   tasks:
     - when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
       block:
-        - name: Create dir
-          file:
-            path: /etc/ansible/facts.d
+        - file:
+            dest: /etc/ansible/facts.d
             state: directory
-        - name: Create fact
-          copy:
-            content: "[sample_exam]\nserver_role=mysql"
+        - copy:
+            content: "[sample_exam]\nserver_role=mysql\n"
             dest: /etc/ansible/facts.d/custom.fact
-
-

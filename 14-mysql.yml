@@ -1,0 +1,9 @@
+---
+- name: 'TASK 14: Create and Work with Roles I'
+  hosts: all
+  tasks:
+    - name: On databas group
+      when:
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
+      include_role:
+        name: 14-sample-mysql

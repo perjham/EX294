@@ -1,26 +1,22 @@
 ---
 - name: 'TASK 25: Manage of dnf group'
   hosts: all
-  become: True
   tasks:
-    - name: Only on webserver group
-      when: 
+    - when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver'] or
           hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
       dnf:
-        name: 
-          - php
+        name:
           - perl
+          - php
         state: present
-    - name: On group database
-      when:
+    - when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['database']
       dnf:
         name: '@Development tools'
         state: present
-    - name: On group webserver
-      when:
+    - when:
         - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
       dnf:
-        name: '@Development tools'
-        state: present
+        name: '*'
+        state: latest

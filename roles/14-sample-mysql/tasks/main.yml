@@ -1,0 +1,51 @@
+---
+# tasks file for 14-sample-mysql
+- name: Create Partition
+  parted:
+    device: /dev/vdc
+    number: 1
+    state: present
+    part_end: 700MiB
+- name: VG
+  lvg:
+    vg: vg_database
+    pvs: /dev/vdc1
+- name: LV
+  lvol:
+    vg: vg_database
+    lv: lv_mysql
+    size: '512'
+- name: FS
+  filesystem:
+    fstype: xfs
+    dev: /dev/vg_database/lv_mysql
+- name: mount
+  mount:
+    path: /mysql_backups
+    src: /dev/vg_database/lv_mysql
+    fstype: xfs
+    state: mounted
+- name: Install Mysql Comunnity
+  block:
+    - shell:
+        cmd: dnf module disable mysql -y
+    - dnf:
+        name: mysql-community-server
+        state: present
+    - firewalld: 
+        port: 3306/tcp
+        permanent: yes
+        immediate: yes
+        state: enabled
+    - template:
+        src: my.cnf.j2
+        dest: /etc/my.cnf
+        backup: yes
+    - systemd:
+        name: mysqld
+        state: restarted
+        enabled: yes
+
+
+
+

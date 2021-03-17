@@ -1,0 +1,10 @@
+--- 
+- name: 'TASK 26: Services'
+  hosts: all
+  tasks:
+    - when:
+        - hostvars[inventory_hostname]['inventory_hostname'] in hostvars[inventory_hostname]['groups']['webserver']
+      file:
+        src: /usr/lib/systemd/system/multi-user.target
+        dest: /etc/systemd/system/default.target
+        state: link

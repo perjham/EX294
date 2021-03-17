@@ -1,37 +1,38 @@
 ---
 - name: 'TASK 2: Configure Repository I'
   hosts: localhost
-  become: True
   tasks:
-    - name: Mount Iso
+    - name: Mount iso
       mount:
         path: /ftp_repo
         src: /dev/sr0
         fstype: iso9660
         state: mounted
-    - name: Enable firewall
+    - name: Install ftp
+      dnf:
+        name:
+          - vsftpd
+          - firewalld
+        state: present
+    - name: Configure Firewall
       firewalld:
         service: ftp
         permanent: yes
         state: enabled
         immediate: yes
-    - name: Install vsftp
-      dnf:
-        name: vsftpd
-        state: present
-    - name: Enable anonymous access
+    - name: Enable anon ftp
       lineinfile:
         path: /etc/vsftpd/vsftpd.conf
         regexp: '^anonymous_enable='
         insertafter: '^#anonymous_enable='
         line: anonymous_enable=YES
-    - name: Configure root repo
+    - name: Configure anon root ftp
       lineinfile:
         path: /etc/vsftpd/vsftpd.conf
         regexp: '^anon_root='
         insertafter: '^#anon_root='
         line: anon_root=/ftp_repo
-    - name: Enable vsftp
+    - name: Enable ftp
       systemd:
         name: vsftpd
         state: restarted
@@ -41,5 +42,9 @@
         name: rhel-system-roles.selinux
       vars:
         selinux_booleans:
-          - { name: 'ftpd_full_access', state: 'on', persistent: 'yes' }        
+          - { name: 'ftpd_full_access', state: 'on', persistent: 'yes' }
 
+
+
+
+     

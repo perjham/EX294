@@ -1,12 +1,14 @@
 ---
-- name: 'TASK 22:  Facts'
+- name: 'TASK 22: Facts'
   hosts: all
-  become: True
   tasks:
     - name: Gather the rpm package facts
       package_facts:
         manager: auto
-    - name: Print version packages
+    - file:
+        dest: /root/packages.txt
+        state: touch
+    - name: Get Info
       with_items:
         - kernel
         - bash
